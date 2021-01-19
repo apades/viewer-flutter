@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:viewer/type/dataType.dart';
 import 'package:viewer/utils/request.dart';
+import 'package:viewer/views/Viewer.dart';
 
 class PageGallery extends StatefulWidget {
   PageGallery({Key key}) : super(key: key);
@@ -11,14 +13,8 @@ class PageGallery extends StatefulWidget {
   _PageGalleryState createState() => _PageGalleryState();
 }
 
-class _Item {
-  final dynamic data;
-
-  const _Item({this.data});
-}
-
 class _PageGalleryState extends State<PageGallery> {
-  List<_Item> _items = <_Item>[];
+  List<DataItem> _items = <DataItem>[];
   int _pid = 0;
   int _count = 0;
 
@@ -59,7 +55,7 @@ class _PageGalleryState extends State<PageGallery> {
       _pid += 1;
     });
     for (int i = 0; i < dataList.length; i++) {
-      _items.add(new _Item(data: dataList[i]));
+      _items.add(new DataItem(data: dataList[i]));
     }
   }
 
@@ -94,24 +90,47 @@ class _PageGalleryState extends State<PageGallery> {
       ),
       itemCount: _count,
       itemBuilder: (context, index) {
-        _Item item = _items[index];
-        if (_items == null) return null;
-        return Stack(
-          // width: 10,
-          // height: 10,
-          // padding: const EdgeInsets.all(8),
-          // child: Text(item.data['preview_url']),
-          // child: ,
-          children: [
-            Image.network(
-              item.data['preview_url'],
-              width: 10,
-              height: 10,
-              // loadingBuilder: (),
-            )
-          ],
-          alignment: AlignmentDirectional.center,
+        DataItem item = _items[index];
+        if (item == null) return null;
+        return InkWell(
+          onTap: () {
+            print('img item ${item.data['id']}');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (ctx) => new PageViewer(
+                  index: index,
+                  items: _items,
+                ),
+              ),
+            );
+          },
+          child: Stack(
+            children: [
+              // InkWell(
+              /* child:  */ Image.network(
+                item.data['preview_url'],
+                width: 10,
+                height: 10,
+                // loadingBuilder: (),
+                // ),
+              ),
+              Positioned(
+                child: IconButton(
+                  splashRadius: 1,
+                  icon: Icon(Icons.favorite_border),
+                  onPressed: () {
+                    print('icon item ${item.data['id']}');
+                  },
+                ),
+                right: 2,
+                bottom: 2,
+              ),
+            ],
+            alignment: AlignmentDirectional.center,
+          ),
         );
+        // return ;
       },
     );
   }
@@ -125,11 +144,15 @@ class _PageGalleryState extends State<PageGallery> {
       body: Stack(
         children: [
           Builder(builder: (BuildContext ctx) {
-            print(ctx);
             if (_isPageLoading)
               return Center(
                 child: CircularProgressIndicator(),
               );
+            if (_isPageError) {
+              return Center(
+                child: Text('page has some error'),
+              );
+            }
             return gridBuilder();
           }),
           Visibility(
@@ -138,7 +161,7 @@ class _PageGalleryState extends State<PageGallery> {
               left: 10,
               bottom: 10,
             ),
-            visible: _isLoading,
+            visible: _isLoading && !_isPageLoading,
           ),
         ],
       ),

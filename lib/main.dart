@@ -1,11 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:viewer/type/dataType.dart';
 import 'package:viewer/utils/request.dart';
-import 'package:viewer/views/gallery.dart';
+import 'package:viewer/views/Gallery.dart';
 
 void main() {
   runApp(MaterialApp(
