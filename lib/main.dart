@@ -1,23 +1,32 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
+import './config.dart';
 import 'package:flutter/material.dart';
 import 'package:viewer/utils/request.dart';
 import 'package:viewer/views/Gallery.dart';
 
-void main() {
-  runApp(MaterialApp(
-    // title: 'Flutter Demo',
-    // theme: ThemeData(
-    //   primarySwatch: Colors.green,
-    //   visualDensity: VisualDensity.adaptivePlatformDensity,
-    // ),
-    initialRoute: '/',
-    routes: {
-      '/': (ctx) => MyHomePage(title: 'Flutter Demo Home Page'),
-      '/gallery': (ctx) => PageGallery()
-    },
-  ));
+// void main() {
+//   runApp(Myapp());
+// }
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext ctx) {
+    return MaterialApp(
+      // title: 'Flutter Demo',
+      // theme: ThemeData(
+      //   primarySwatch: Colors.green,
+      //   visualDensity: VisualDensity.adaptivePlatformDensity,
+      // ),
+      initialRoute: '/',
+      routes: {
+        '/': (ctx) => MyHomePage(title: 'Flutter Demo Home Page'),
+        '/gallery': (ctx) => PageGallery()
+      },
+    );
+  }
 }
 
 class MyHomePage extends StatefulWidget {
@@ -40,6 +49,12 @@ class _MyHomePageState extends State<MyHomePage> {
   List<_Item> _items = <_Item>[];
 
   Widget gridBuilder() {
+    var config = AppConfig.of(context);
+    print("config${config.apiBaseUrl}");
+    // Map<String, String> m = ;
+    Platform.environment.addAll({'asd': 'asdbb'});
+    print(Platform.environment['asd']);
+
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -75,7 +90,6 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
               icon: Icon(Icons.live_tv),
               onPressed: () {
-                print('click');
                 Navigator.pushNamed(ctx, '/gallery');
               })
         ],

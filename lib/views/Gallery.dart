@@ -74,6 +74,8 @@ class _PageGalleryState extends State<PageGallery> {
 
   @override
   void initState() {
+    print(String.fromEnvironment("dart.vm.APP_VERSION"));
+    print(String.fromEnvironment("VAR"));
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
 
