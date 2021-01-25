@@ -16,6 +16,22 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 # 安装
+## android gradle build问题
+修改`\flutter\packages\flutter_tools\gradle\flutter.gradle`
+```groovy
+buildscript {
+    repositories {
+        // google()
+        // jcenter()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.0'
+    }
+}
+```
 
 ## 快速启动dart命令
 `choco install dart-sdk`

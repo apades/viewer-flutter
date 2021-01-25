@@ -51,9 +51,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget gridBuilder() {
     var config = AppConfig.of(context);
     print("config${config.apiBaseUrl}");
-    // Map<String, String> m = ;
-    Platform.environment.addAll({'asd': 'asdbb'});
-    print(Platform.environment['asd']);
 
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
