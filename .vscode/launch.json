@@ -5,11 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "viewer-flutter",
+            "name": "sf mode",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
             "program": "${workspaceFolder}\\lib\\sf.dart"
+        },
+        {
+            "name": "ad mode",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "program": "${workspaceFolder}\\lib\\ad.dart"
         }
     ]
 }
