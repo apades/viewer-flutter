@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:viewer/config.dart';
 import 'package:viewer/type/dataType.dart';
 import 'package:viewer/utils/request.dart';
 import 'package:viewer/views/Viewer.dart';
@@ -25,6 +26,9 @@ class _PageGalleryState extends State<PageGallery> {
   bool _isPageError = false;
 
   ScrollController _controller;
+
+  AppConfig appConfig = AppConfig.getConfig();
+  double _picWidth = 10;
 
   loadData() async {
     if (_isOver || _isLoading) return;
@@ -74,8 +78,7 @@ class _PageGalleryState extends State<PageGallery> {
 
   @override
   void initState() {
-    print(String.fromEnvironment("dart.vm.APP_VERSION"));
-    print(String.fromEnvironment("VAR"));
+    _picWidth = appConfig.mode == DevMode.sf ? 10 : null;
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
 
@@ -109,13 +112,11 @@ class _PageGalleryState extends State<PageGallery> {
           },
           child: Stack(
             children: [
-              // InkWell(
-              /* child:  */ Image.network(
+              Image.network(
                 item.data['preview_url'],
-                width: 10,
-                height: 10,
+                width: _picWidth,
+                height: _picWidth,
                 // loadingBuilder: (),
-                // ),
               ),
               Positioned(
                 child: IconButton(

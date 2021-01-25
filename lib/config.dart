@@ -1,24 +1,24 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 
-class AppConfig extends InheritedWidget {
-  AppConfig({
-    @required this.appName,
-    @required this.flavorName,
-    @required this.apiBaseUrl,
-    @required Widget child,
-  }) : super(child: child);
+enum DevMode { sf, ad }
 
-  final String appName;
-  final String flavorName;
-  final String apiBaseUrl;
+class AppConfig {
+  DevMode mode;
+  static AppConfig _appConfig;
 
-  static AppConfig of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<AppConfig>();
+  factory AppConfig(DevMode mode) {
+    if (_appConfig != null)
+      return _appConfig;
+    else {
+      _appConfig = AppConfig._init(mode);
+      return _appConfig;
+    }
   }
 
-  @override
-  bool updateShouldNotify(InheritedWidget oldWidget) => false;
+  static AppConfig getConfig() {
+    if (_appConfig == null) return throw new ErrorSummary("需要初始化");
+    return _appConfig;
+  }
+
+  AppConfig._init(this.mode);
 }

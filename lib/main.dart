@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
-import './config.dart';
 import 'package:flutter/material.dart';
 import 'package:viewer/utils/request.dart';
 import 'package:viewer/views/Gallery.dart';
@@ -49,9 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
   List<_Item> _items = <_Item>[];
 
   Widget gridBuilder() {
-    var config = AppConfig.of(context);
-    print("config${config.apiBaseUrl}");
-
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
