@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:viewer/type/dataType.dart';
 import 'package:viewer/utils/utils.dart';
+import 'package:viewer/config.dart';
 
 class PageViewer extends StatefulWidget {
   final int index;
@@ -84,27 +85,30 @@ class _PageViewerState extends State<PageViewer> {
             color: Colors.grey,
             child: Column(
               children: [
-                Image.network(
-                  item.data['file_url'],
-                  width: 10,
-                  height: 10,
-                  loadingBuilder: (BuildContext ctx, Widget child,
-                      ImageChunkEvent loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Container(
-                      height: 300,
-                      width: width,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes
-                              : null,
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                isSfMode()
+                    ? Image.network(
+                        item.data['file_url'],
+                        width: 10,
+                        height: 10,
+                        loadingBuilder: (BuildContext ctx, Widget child,
+                            ImageChunkEvent loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Container(
+                            height: 300,
+                            width: width,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes
+                                    : null,
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    : Text(item.data['file_url']),
               ],
             ),
           ),

@@ -27,7 +27,6 @@ class _PageGalleryState extends State<PageGallery> {
 
   ScrollController _controller;
 
-  AppConfig appConfig = AppConfig.getConfig();
   double _picWidth = 10;
 
   loadData() async {
@@ -78,7 +77,7 @@ class _PageGalleryState extends State<PageGallery> {
 
   @override
   void initState() {
-    _picWidth = appConfig.mode == DevMode.sf ? 10 : null;
+    _picWidth = isSfMode() ? 10 : null;
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
 

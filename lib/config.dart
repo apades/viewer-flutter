@@ -22,3 +22,7 @@ class AppConfig {
 
   AppConfig._init(this.mode);
 }
+
+bool isSfMode() {
+  return AppConfig.getConfig().mode == DevMode.sf;
+}
