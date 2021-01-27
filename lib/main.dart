@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:viewer/utils/request.dart';
 import 'package:viewer/views/Gallery.dart';
 
+import 'package:flutter_js/flutter_js.dart';
 // void main() {
 //   runApp(Myapp());
 // }
@@ -45,6 +47,18 @@ class _Item {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<_Item> _items = <_Item>[];
+
+  JavascriptRuntime jsctx;
+
+  @override
+  initState() {
+    super.initState();
+    jsctx = getJavascriptRuntime();
+
+    jsctx.onMessage('log', (dynamic args) {
+      print("msg $args");
+    });
+  }
 
   Widget gridBuilder() {
     return GridView.builder(
@@ -90,13 +104,17 @@ class _MyHomePageState extends State<MyHomePage> {
         child: gridBuilder(),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => request(
-                "https://rule34.xxx/index.php?page=dapi&s=post&tags=dacad&q=index&json=1&limit=2")
-            .then((value) {
-          var json = jsonDecode(value);
-          var d = json[0]['preview_url'];
-          print(json.length);
-        }),
+        onPressed: () async {
+          // jsctx.evaluate("var window = global = globalThis;");
+          // String fetchJs = await rootBundle.loadString("js/fetch.js");
+          // await jsctx.evaluateAsync(fetchJs + "");
+          JsEvalResult rs = jsctx.evaluate("""
+          XMLHttpRequest
+""");
+          // jsctx.enableHandlePromises();
+          // JsEvalResult rs2 = await jsctx.handlePromise(rs);
+          print("rs ${rs}");
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

@@ -47,3 +47,11 @@ API.getUsers().then((response) {
     });
 });
 ```
+
+# js lib
+## 目前已知的问题
+1. 没法用`Promise`
+2. 没有基础的对象，`window` `globalThis` `http请求相关`
+
+## 路线
+虽然没有http请求，但是可以`sendMessage`给dart请求，在把数据给`jscore`处理
